@@ -64,9 +64,9 @@ class VirtualKeyboard:
 
     #Presses keys down one by one then releases together.
     #Good for things like "#alt##tab#" or "#ctrl##alt##delete#"
-    def keys_down_then_release(self, keys):
+    def hold_keys(self, keys):
         if keys in CUSTOM_CODES.keys():
-            self.keys_down_then_release(CUSTOM_CODES[keys])
+            self.hold_keys(CUSTOM_CODES[keys])
         else:
             code = ''
             in_code = False
