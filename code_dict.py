@@ -145,8 +145,6 @@ CODE_DICT = {'backspace':0x08,
            '/':0xBF,
            '`':0xC0,
            ';':0xBA,
-           '[':0xDB,
            '\\':0xDC,
-           ']':0xDD,
            "'":0xDE,
            '`':0xC0}

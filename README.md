@@ -15,8 +15,12 @@ Virtual keyboard is a tool in the form of a python class designed to be used wit
   * Presses down then releases a key
 * type(string)
   * Presses down keys in string in order
-  * Surround a code with #s to enter that as one whole code
+  * Surround a code with #s to enter that as one whole code. The names of macros can also be put in #s to make them run.
     * Eg: '#tab#' presses the tab key
+    * Eg: '#example#' types 'this is an example' (See Custom Macros)
+  * Any keys or codes surrounded by square brackets will be held until the last one is pressed.
+    * Eg: You could use this to do '[#alt##tab#]Hello World[#alt##tab#] to tab into another document and write hello world.
+    * You can also use macros within this.
 * hold_keys(string)
   * Does the same as type, except that every key is held until the last one is pressed
   * Useful for keyboard shortcuts

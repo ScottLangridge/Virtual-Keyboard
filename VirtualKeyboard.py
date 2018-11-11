@@ -41,60 +41,73 @@ class VirtualKeyboard:
 ##
 ##    You should enter: "hello#enter##tab#world
     def type(self, keys):
-        if keys in CUSTOM_CODES.keys():
-            self.type(CUSTOM_CODES[keys])
-        else:
-            code = ''
-            in_code = False
-
-            for char in keys:
-                if char == '#':
-                    if in_code:
-                        self.key_stroke(code)
+        code = ''
+        hold = ''
+        in_code = False
+        in_hold = False
+        for char in keys:
+            if char == '#' and not in_hold:
+                if in_code:
+                    if ('#'+code+'#') in CUSTOM_CODES.keys():
+                        self.type(CUSTOM_CODES['#'+code+'#'])
                         code = ''
-                        in_code = False
-                    else:                            
-                        in_code = True
-                        
-                elif in_code:
-                    code = code + str(char)
-                else:
-                    self.key_stroke(str(char))
+                    else:
+                        self.key_stroke(code)
+                    code = ''
+                    in_code = False
+                else:                            
+                    in_code = True
+                    
+            elif char == '[':
+                in_hold = True
+                
+            elif char == ']':
+                in_hold = False
+                self.hold_keys(hold)
+                hold = ''
+                
+            elif in_code:
+                code = code + str(char)
+            elif in_hold:
+                hold = hold + str(char)
+            else:
+                self.key_stroke(str(char))
 
 
     #Presses keys down one by one then releases together.
     #Good for things like "#alt##tab#" or "#ctrl##alt##delete#"
     def hold_keys(self, keys):
-        if keys in CUSTOM_CODES.keys():
-            self.hold_keys(CUSTOM_CODES[keys])
-        else:
-            code = ''
-            in_code = False
+        code = ''
+        in_code = False
 
-            for char in keys:
-                if char == '#':
-                    if in_code:
+        for char in keys:
+            if char == '#':
+                if in_code:
+                    if ('#'+code+'#') in CUSTOM_CODES.keys():
+                        self.hold_keys(CUSTOM_CODES['#'+code+'#'])
+                        code = ''
+                    else:
                         self.key_down(code)
                         code = ''
                         in_code = False
-                    else:                            
-                        in_code = True
-                        
-                elif in_code:
-                    code = code + str(char)
-                else:
-                    self.key_down(str(char))
+                else:                            
+                    in_code = True
+                    
+            elif in_code:
+                code = code + str(char)
+            else:
+                self.key_down(str(char))
 
-            for char in keys:
-                if char == '#':
-                    if in_code:
-                        self.key_up(code)
-                        code = ''
-                        in_code = False
-                    else:                            
-                        in_code = True
-                        
-                elif in_code:
-                    code = code + str(char)
-                else:
-                    self.key_up(str(char))
+        for char in keys:
+            if char == '#':
+                if in_code:
+                    self.key_up(code)
+                    code = ''
+                    in_code = False
+                else:                            
+                    in_code = True
+                    
+            elif in_code:
+                code = code + str(char)
+            else:
+                self.key_up(str(char))
