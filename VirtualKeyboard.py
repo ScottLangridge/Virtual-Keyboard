@@ -9,6 +9,7 @@ class VirtualKeyboard:
     def __init__(self):
         self.user32 = ctypes.windll.user32
 
+
     #Returns code from key
     def decode(self, key):
         return CODE_DICT[key.lower()]
@@ -32,7 +33,36 @@ class VirtualKeyboard:
         self.key_up(key)
 
 
-    #Presses keys down all at once then releases together.
+##    Type whole messages. Letters will be read as keys, except # which denotes
+##    the start of a multi-char key. EG: To write:
+##
+##    hello
+##        world
+##
+##    You should enter: "hello#enter##tab#world
+    def type(self, keys):
+        if keys in CUSTOM_CODES.keys():
+            self.type(CUSTOM_CODES[keys])
+        else:
+            code = ''
+            in_code = False
+
+            for char in keys:
+                if char == '#':
+                    if in_code:
+                        self.key_stroke(code)
+                        code = ''
+                        in_code = False
+                    else:                            
+                        in_code = True
+                        
+                elif in_code:
+                    code = code + str(char)
+                else:
+                    self.key_stroke(str(char))
+
+
+    #Presses keys down one by one then releases together.
     #Good for things like "#alt##tab#" or "#ctrl##alt##delete#"
     def keys_down_then_release(self, keys):
         if keys in CUSTOM_CODES.keys():
@@ -68,33 +98,3 @@ class VirtualKeyboard:
                     code = code + str(char)
                 else:
                     self.key_up(str(char))
-
-
-    
-##    Type whole messages. Letters will be read as keys, except # which denotes
-##    the start of a multi-char key. EG: To write:
-##
-##    hello
-##        world
-##
-##    You should enter: "hello#enter##tab#world
-    def type(self, keys):
-        if keys in CUSTOM_CODES.keys():
-            self.type(CUSTOM_CODES[keys])
-        else:
-            code = ''
-            in_code = False
-
-            for char in keys:
-                if char == '#':
-                    if in_code:
-                        self.key_stroke(code)
-                        code = ''
-                        in_code = False
-                    else:                            
-                        in_code = True
-                        
-                elif in_code:
-                    code = code + str(char)
-                else:
-                    self.key_stroke(str(char))
