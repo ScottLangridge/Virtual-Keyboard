@@ -1,5 +1,6 @@
 # Virtual Keyboard
-A rubbish tool by Scott Langridge :)
+A rubbish tool by Scott Langridge :) 
+
 Mostly made just for practice, not to be used by anyone but me. 
 
 ## What is Virtual Keyboard?
