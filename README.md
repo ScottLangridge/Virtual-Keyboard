@@ -1,5 +1,6 @@
 # Virtual Keyboard
-A tool by Scott Langridge :)
+A rubbish tool by Scott Langridge :)
+Mostly made just for practice, not to be used by anyone but me. 
 
 ## What is Virtual Keyboard?
 Virtual keyboard is a tool in the form of a python class designed to be used within other programs to send keystrokes as if sent by the user. For example: I will be personally using it to tab into a window and hit space to pause a video, before tabbing back out as part of another project.
